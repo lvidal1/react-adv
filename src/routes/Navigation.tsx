@@ -13,9 +13,9 @@ import { routes } from "./routes";
 
 export const Navigation = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<h1>Loading...</h1>}>
       <Router>
-        <div className="main-layout">
+          <div className="main-layout">
           <nav>
             <img src={logo} alt="React Logo" />
             <ul>
