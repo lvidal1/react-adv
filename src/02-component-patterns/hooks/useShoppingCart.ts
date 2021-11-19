@@ -19,30 +19,17 @@ export const useShoppingCart = () => {
   
       setCart((prevCart) => {
   
-        const productInCart : ProductInCart = prevCart[product.id] || {...product, count: 0};
-  
-        if(Math.max(productInCart.count + count, 0) > 0) {
-          productInCart.count += count;
+        if (count === 0) {
           return {
             ...prevCart,
-            [product.id]: productInCart,
+            [product.id]: undefined,
           };
         }
   
-        const { [product.id]: _, ...rest } = prevCart;
-        return rest;
-  
-        // if (count === 0) {
-        //   return {
-        //     ...prevCart,
-        //     [product.id]: undefined,
-        //   };
-        // }
-  
-        // return {
-        //   ...prevCart,
-        //   [product.id]: { ...product, count },
-        // };
+        return {
+          ...prevCart,
+          [product.id]: { ...product, count },
+        };
       });
     };
     return {

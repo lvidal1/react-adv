@@ -1,5 +1,5 @@
 import { onChangeProps, Product } from "../interfaces/interfaces";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface useProductProps {
   product: Product;
@@ -19,16 +19,7 @@ export const useProduct = ({
 }: useProductProps) => {
   const [counter, setCounter] = useState(value);
 
-  const isControlled = useRef(!!onChange);
-
   const updateItemsBy = (amount: number) => {
-    console.log(isControlled.current);
-
-    // It's a controlled component by the user
-    if (isControlled.current) {
-      // The exclamation mark is a trick to force the type to be accepted
-      return onChange!({ product, count: amount });
-    }
 
     const newCount = Math.max(0, counter + amount);
     setCounter(newCount);
