@@ -29,6 +29,7 @@ export const ProductImage = ({ img, className, style }: ProductImageProps) => {
       src={imgToShow}
       alt="Product img"
       style={style}
+      
     />
   );
 };
