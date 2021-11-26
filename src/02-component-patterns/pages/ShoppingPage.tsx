@@ -5,14 +5,14 @@ import {
   ProductTitle,
 } from "../components";
 
-import { useShoppingCart } from "../hooks/useShoppingCart";
 import { products } from "../data/products";
 
 import "../styles/custom-styles.css";
 
+const product = products[0];
+
 export const ShoppingPage = () => {
   // It handles the state of the cart
-  const { cart, onProductCountChange } = useShoppingCart();
 
   return (
     <div>
@@ -20,46 +20,30 @@ export const ShoppingPage = () => {
       <hr />
 
       <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            className="bg-dark"
-            onChange={(e) => onProductCountChange(e)}
-            value={cart[product.id]?.count || 0}
-          >
-            <ProductImage className="card-image" />
-            <ProductTitle title={""} className="text-white text-bold" />
-            <ProductButtons className="custom-buttons" />
-          </ProductCard>
-        ))}
-      </div>
+        <ProductCard
+          key={product.id}
+          product={product}
+          className="bg-dark"
+          initialValues={{
+            count: 4,
+            maxCount: 10,
+          }}
+        >
+          {( {reset, updateItemsBy , isMaxCountReached, count} ) => (
+            <>
+              <ProductImage className="card-image" />
+              <ProductTitle title={""} className="text-white text-bold" />
+              <ProductButtons className="custom-buttons" />
+              <button className="btn btn-danger" onClick={reset}> Reset </button>
 
-      <div>
-        <code>
-          <pre>{JSON.stringify(cart, null, 2)}</pre>
-        </code>
-      </div>
-
-      <div className="shopping-cart">
-        <h4>Shopping Cart</h4>
-        {Object.entries(cart).map(([key, product]) => {
-          return (
-            product && (
-              <ProductCard
-                key={key}
-                product={product}
-                className="bg-dark"
-                style={{ width: "100px" }}
-                onChange={(e) => onProductCountChange(e)}
-                value={product.count}
-              >
-                <ProductImage className="card-image" />
-                <ProductButtons className="custom-buttons" />
-              </ProductCard>
-            )
-          );
-        })}
+              <button onClick={() => updateItemsBy(-2)}> - </button>
+              {
+                !isMaxCountReached && <button onClick={() => updateItemsBy(2)}> + </button>
+              }
+              <span>{count}</span>
+            </>
+          )}
+        </ProductCard>
       </div>
     </div>
   );
